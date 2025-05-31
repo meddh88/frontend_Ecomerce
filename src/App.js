@@ -6,6 +6,7 @@ import Dashboard from './components/dashboard';
 import { Navigate, Route, Router, Routes } from "react-router-dom";
 import { useState } from 'react';
 import ResponsiveProduit from './Dashboards/produit'; 
+import Addproduct from './components/addproduct';
 
 
 function App() {
@@ -24,9 +25,11 @@ function App() {
     return (
       <Routes>
         <Route path="/produit" element={<ResponsiveProduit />} />
+        <Route  path="/addProduct" element={<Addproduct />} />
         <Route path="/" element={<Dashboard />} />
         <Route path="/profile" element={<Profile />} />
         <Route path='/*' element={<Navigate to="/produit" />} />
+        
       </Routes>
     );
   }

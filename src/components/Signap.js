@@ -57,19 +57,7 @@ function SIGNUP() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const validationErrors = validateForm();
-    setError(validationErrors);
-
-    if (Object.keys(validationErrors).length > 0) {
-      Object.values(validationErrors).forEach((msg) => {
-        toast.error(msg, {
-          position: "top-right",
-          autoClose: 5000,
-        });
-      });
-      return;
-    }
-
+     console.log("Form submitted with data:", data);
     try {
       const response = await axios.post('/users/register', data);
       console.log(response);
