@@ -1,25 +1,38 @@
+import React, { useEffect, useState } from 'react';
+import { useNavigate, useParams } from "react-router"
 
-
-import React from 'react';
-import { useState } from 'react';
 import { Container, Card, Form, Button, Row, Col } from 'react-bootstrap';
 import axiosInstance from '../configuration/axiosconfig';
-import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 
+function UpdateProduct() {
+    let params = useParams()
+ const productId = params.id
 
-function Addproduct() {
-   
+
+
     const [data, setData] = useState({
         name: '',
+        category: '',
         description: '',
         price: ''
     });
-    const [error, setError] = useState({});
-    const navigate = useNavigate();
+   const navigate = useNavigate();
 
-  const handleChange = (e) => {
+ useEffect(() => {
+    const fetchProduct = async () => {
+        try {
+            const response = await axiosInstance.get(`/products/${productId}`);
+            setData(response.data);
+        } catch (error) {
+            console.error("Error fetching product:", error);
+        }
+    };
+
+    fetchProduct();
+}, [productId]);
+const handleChange = (e) => {
     const { name, value } = e.target;
     setData({ ...data, [name]: value });
   };
@@ -28,28 +41,24 @@ function Addproduct() {
         e.preventDefault();
         console.log("Form submitted with data:", data);
         try {
-                  const response = await axiosInstance.post('/products', data, {
+                  const response = await axiosInstance.put(`/products/${productId}`, data, {
             headers: {
               Authorization: `Bearer ${token}`
-               
             },
-           
           });
       console.log(response);
       navigate('/produit');
-      toast.success("Product added successfully!");
+      toast.success("Product updated successfully!");
     } catch (err) {
       console.error(err);
-      toast.error("Product addition failed. Please try again.");
+      toast.error("Product update failed. Please try again.");
     }
         
     };
-
-
-
-return(
+  return (
+    
   
-    <Form onSubmit={handleSubmit}>
+ <Form onSubmit={handleSubmit}>
       <Row className="mb-3">
         <Form.Group as={Col} controlId="name">
           <Form.Label>Name</Form.Label>
@@ -95,13 +104,11 @@ return(
         onChange={handleChange}
            />
       </Form.Group>
-
-        
-
-      <Button variant="primary" type="submit">
-        Submit
+       <Button variant="primary" type="submit">
+        Update Product
       </Button>
-    </Form>
-  );
+ 
+      </Form>
+    );  
 }
-export default Addproduct;
+export default UpdateProduct;

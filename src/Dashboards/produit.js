@@ -33,32 +33,28 @@ const [produit, setProduit] = useState([]);
     <Table responsive>
       <thead>
         <tr>
-          <th>#</th>
-          {produit.map((index) => (
-            <th key={index}>Produit Name</th>
-            
-          ))}
+          <th>Product Name</th>
+          <th>Category</th>
+          <th>Price</th>
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>1</td>
-          {Array.from({length :12}).map((_, index) => (
-            <td key={index}>Category {index}</td>
-          ))}
-        </tr>
-        <tr>
-          <td>2</td>
-          {Array.from({ length: 12 }).map((_, index) => (
-            <td key={index}>Prix {index}</td>
-          ))}
-        </tr>
-        <tr>
-          <td>3</td>
-          {Array.from({ length: 12 }).map((_, index) => (
-            <td key={index}>Stock {index}</td>
-          ))}
-        </tr>
+        {produit.map((item) => (
+          <tr key={item._id}>
+            <td>{item.name}</td>
+            <td>{item.category}</td>
+            <td>{item.price} DT</td>
+            <td>
+              <button className="btn btn-primary me-2" onClick={() => navigate(`/UpdateProduct/${item._id}`)}>
+                Modifier
+              </button>
+
+                <button className="btn btn-danger" onClick={() => navigate('/addProduct')}>
+          Delete
+        </button>
+            </td>
+          </tr>
+        ))}
       </tbody>
     </Table>)
         }
@@ -66,6 +62,8 @@ const [produit, setProduit] = useState([]);
         <button className="btn btn-primary" onClick={() => navigate('/addProduct')}>
           Ajouter un produit
         </button>
+
+      
       </div>
   );
 }

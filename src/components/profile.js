@@ -8,7 +8,7 @@ import axios from '../configuration/axiosconfig';
 import { useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 
-function Profile() {
+function Profile({token}) {
     const [user,setUser]=useState({
         firstname: '',
         lastname: '',
@@ -16,13 +16,13 @@ function Profile() {
         age: ''
     });
     const [isConsulting, setIsConsulting] = useState(true);
-      const [lodaing, setLoading] = useState(true);
-  
+      const [loading, setLoading] = useState(true);
+
       const [error, setError] = useState({});
     const navigate = useNavigate();
       
     useEffect (() => { 
-        const token=localStorage.getItem('token');
+       
       setLoading(true);
       setTimeout(() => {
         axios.get('users/profile',{
@@ -87,7 +87,7 @@ function Profile() {
   return (
 
     <Container>
-      {lodaing ?  <Spinner animation="border" role="status">
+      {loading ?  <Spinner animation="border" role="status">
       <span className="visually-hidden">Loading...</span>
     </Spinner> :
      
