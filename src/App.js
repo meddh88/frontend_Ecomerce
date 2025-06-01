@@ -6,7 +6,7 @@ import Dashboard from './components/dashboard';
 import { Navigate, Route, Router, Routes } from "react-router-dom";
 import { useState,useEffect } from 'react';
 import ResponsiveProduit from './Dashboards/produit'; 
-import Addproduct from './components/addproduct';
+import Addproduct from './components/addProduct';
 import UpdateProduct from './components/updateProduct';
 
 
