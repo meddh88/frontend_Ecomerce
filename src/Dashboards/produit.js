@@ -1,14 +1,15 @@
-
 import React, { useEffect,useState } from 'react';
 import Table from 'react-bootstrap/Table';
 import axios from '../configuration/axiosconfig';
 import { useNavigate } from 'react-router-dom';
+import ModalComponent from '../components/ModalComponent';
 
 
 function ResponsiveProduit() {
-
 const [Loading, setLoading] = useState(true);
 const [produit, setProduit] = useState([]);
+const [modal, setModal] = useState(false);
+
  const navigate = useNavigate();
   useEffect (() => { 
         const token=localStorage.getItem('token');
@@ -27,6 +28,7 @@ const [produit, setProduit] = useState([]);
         );
         
     },[]);
+
   return (
     <div>
       {produit.length === 0 ?(<h1> Produit not found :D !! </h1>):(
@@ -49,11 +51,13 @@ const [produit, setProduit] = useState([]);
                 Modifier
               </button>
 
-                <button className="btn btn-danger" onClick={() => navigate('/addProduct')}>
-          Delete
-        </button>
+                <button className="btn btn-danger" onClick={() => setModal(true)}>
+                   Delete
+               </button>
             </td>
+            { modal && (<ModalComponent modal={modal} setModal={setModal}/>)}
           </tr>
+         
         ))}
       </tbody>
     </Table>)

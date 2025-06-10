@@ -3,23 +3,37 @@ import Signap from './components/Signap'
 import Login from './components/login';
 import Profile from './components/profile';
 import Dashboard from './components/dashboard';
-import { Navigate, Route, Router, Routes } from "react-router-dom";
+import { Await, Navigate, Route, Router, Routes } from "react-router-dom";
 import { useState,useEffect } from 'react';
 import ResponsiveProduit from './Dashboards/produit'; 
-import Addproduct from './components/addProduct';
+import Addproduct from './components/addproduct';
 import UpdateProduct from './components/updateProduct';
+import { getme} from './services/userservices';
 
 
 function App() {
   const storedtoken = localStorage.getItem('token');
   const [token, setToken] = useState(storedtoken || null);
-  useEffect(() => {
+  const [user, setUser] = useState(null);
+
+  useEffect( async() => {
 
     if (storedtoken) {
       setToken(storedtoken);
+      const data= await getme(token);
+      if (data.status === 200) {
+        setUser(data.data);
+      } else {
+        setUser(null);
+        localStorage.removeItem('token'); // Clear token if user data fetch fails
+        setToken(null); // Update state to reflect no token
+      }
     }
-  }, [storedtoken]);
-  if (!token) {
+  }, [user, token, storedtoken]);
+
+
+  if (!user) {
+    // If no token is present, redirect to the login page
     return (
       <Routes>
         <Route path="/" element={<Signap />} />
